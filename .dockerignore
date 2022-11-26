@@ -1,0 +1,10 @@
+dbdata
+.idea
+.git
+.gitignore
+.pre-commit-cofig.yaml
+.pytest_cache
+__pycache__
+*.sh
+Dockerfile*
+pytest.ini

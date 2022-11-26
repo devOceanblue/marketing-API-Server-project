@@ -1,33 +1,35 @@
 version: '3.8'
 
 services:
-  redis: # See Also: https://hub.docker.com/_/redis
+  redis:
     image: redis:7.0.5-alpine
-    hostname: hostname-redis
+    hostname: buzzvil
     ports:
       - 6379:6379
   
-  mysql: # See Also: https://hub.docker.com/_/mysql
+  mysql:
+    platform: linux/x86_64
     image: mysql:8.0.31
-    hostname: hostname-mysql
+    hostname: buzzvil
     command: --default-authentication-plugin=mysql_native_password
     restart: always
     environment:
       MYSQL_ROOT_PASSWORD: root
     ports:
       - 3306:3306
+    volumes:
+      - ./dbdata:/var/lib/mysql
+      - ./resources/sql:/docker-entrypoint-initdb.d
 
   app:
-    build: .
-    image: python-sample-project
+    build:
+      context: .
+      dockerfile: Dockerfile
     volumes:
       - .:/app
     depends_on:
       - redis
       - mysql
     ports:
-      - 8080:8080
-    command: |
-      sh -c "./wait-for-it.sh mysql:3306 --
-             ./wait-for-it.sh redis:6379 --
-             python src/main.py"
+      - 8082:8082
+    restart: always

@@ -1,0 +1,2 @@
+-- create databases
+CREATE DATABASE IF NOT EXISTS `buzzvil` DEFAULT CHARACTER SET utf8;
