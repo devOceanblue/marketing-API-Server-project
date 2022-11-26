@@ -1,4 +1,5 @@
 from fastapi import FastAPI
+from fastapi.logger import logger
 from starlette.middleware.cors import CORSMiddleware
 
 from app.routes import router
@@ -6,8 +7,6 @@ from app.routes import router
 
 def get_application():
     app = FastAPI()
-
-
     app.include_router(router)
     app.add_middleware(
         CORSMiddleware,
@@ -19,6 +18,14 @@ def get_application():
     return app
 
 app = get_application()
+
+@app.on_event("startup")
+async def on_start_up():
+    logger.info("on_start_up")
+
+@app.on_event("shutdown")
+async def on_start_up():
+    logger.info("on_shutdown")
 
 @app.get("/")
 async def root():

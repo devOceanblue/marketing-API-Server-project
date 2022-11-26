@@ -12,7 +12,7 @@ create table user
         primary key (user_id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-DROP TABLE IF EXISTS `ad_campaigns`
+DROP TABLE IF EXISTS `ad_campaigns`;
 create table ad_campaigns
 (
     id             int auto_increment,
@@ -30,19 +30,18 @@ create table ad_campaigns
         primary key (id)
 )ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-DROP TABLE IF EXISTS `reward`
+DROP TABLE IF EXISTS `reward`;
 create table reward
 (
-    id         int auto_increment,
-    user_id    int       null,
-    credit     int       null,
-    created_at TIMESTAMP default TIMESTAMP null,
-    updated_at TIMESTAMP null,
-    constraint reward_pk
-        primary key (id),
-    constraint reward___fk
-        foreign key (user_id) references ??? (``)
-)ENGINE=INNODB DEFAULT CHARSET=utf-8;
+    id         int auto_increment
+        primary key,
+    user_id    int                                 null,
+    credit     int                                 null,
+    created_at timestamp default CURRENT_TIMESTAMP null,
+    updated_at timestamp default CURRENT_TIMESTAMP null on update CURRENT_TIMESTAMP,
+    constraint reward_user_user_id_fk
+        foreign key (user_id) references user (user_id)
+)ENGINE=INNODB DEFAULT CHARSET=utf8;
 
 
 
