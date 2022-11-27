@@ -12,7 +12,7 @@ COPY . /app
 
 ENV DB_HOST localhost
 ENV DB_NAME buzzvil
-ENV DB_USER root
+ENV DB_USER test_user
 ENV DB_PASSWORD zxcsfqersdr123@~!
 
 ENV LOG_LEVEL DEBUG
@@ -21,8 +21,3 @@ ENV LOG_LEVEL DEBUG
 EXPOSE 8082
 
 CMD uvicorn main:app --host 0.0.0.0 --port 8082
-
-
-
-
-

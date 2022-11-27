@@ -2,7 +2,7 @@ from functools import wraps
 
 from fastapi.logger import logger
 from sqlalchemy import create_engine
-from sqlalchemy.orm import sessionmaker
+from sqlalchemy.orm import sessionmaker, scoped_session
 
 import config
 
@@ -11,27 +11,17 @@ engine = create_engine(
 )
 
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
+Session = scoped_session(SessionLocal)
 
 
-def get_session(
-    engine,
-    name,
-    autoflush=False,
-    autocommit=False,
-):
+def get_session(name):
     def wrap(func):
         @wraps(func)
-        def inner(*args, **kwargs):
-            with engine.session_maker(
-                autoflush=autoflush, autocommit=autocommit, bind=engine
-            ) as session:
-                try:
+        async def inner(*args, **kwargs):
+            with Session() as session:
+                with session.begin():
                     kwargs[name] = session
-                    func(*args, **kwargs)
-                except Exception as e:
-                    session.rollback()
-                    logger.exception("session error is raised")
-                    raise e
+                    return await func(*args, **kwargs)
 
         return inner
 
