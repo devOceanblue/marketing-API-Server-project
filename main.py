@@ -2,6 +2,7 @@ from fastapi import FastAPI
 from fastapi.logger import logger
 from starlette.middleware.cors import CORSMiddleware
 
+import config
 from app.routes import router
 
 
@@ -15,6 +16,7 @@ def get_application():
         allow_methods=["*"],
         allow_headers=["*"]
     )
+    logger.setLevel(config.log_level)
     return app
 
 app = get_application()
