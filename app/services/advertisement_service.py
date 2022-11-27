@@ -4,7 +4,7 @@ from typing import List, Dict
 import requests
 
 import config
-from app.exceptions.exceptions import NotFoundAdCampaign
+from app.exceptions.exceptions import NotFoundError
 from app.models.base_models.responses.advertisement import (
     GetAdvertisementsResponse,
     AdvertisementResponseModel,
@@ -87,4 +87,4 @@ class AdvertisementService:
                 ad_campaign_id=ad_campaign_id, reward=reward, session=session
             )
         else:
-            raise NotFoundAdCampaign
+            raise NotFoundError

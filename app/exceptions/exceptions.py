@@ -8,5 +8,5 @@ class CustomHTTPException(HTTPException):
         super().__init__(status_code=self.status_code)
 
 
-class NotFoundAdCampaign(CustomHTTPException):
+class NotFoundError(CustomHTTPException):
     status_code = 404

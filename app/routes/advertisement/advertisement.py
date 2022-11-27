@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Depends
 from starlette.responses import Response
 
-from app.exceptions.exceptions import NotFoundAdCampaign
+from app.exceptions.exceptions import NotFoundError
 from app.models.base_models.requests.advertisement import (
     GetAdvertisementsRequest,
     PatchAdvertisementRequest,
@@ -45,7 +45,7 @@ async def patch_advertisement_reward(
             ad_campaign_id=ad_campaign_id, reward=reward, session=session
         )
         return Response(status_code=200)
-    except NotFoundAdCampaign as e:
+    except NotFoundError as e:
         return Response(status_code=404)
     except Exception as e:
         return Response(status_code=500)
