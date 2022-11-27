@@ -7,5 +7,6 @@ async def test_get_advertisement(client):
     print(resp.json())
 
 
-def test_one():
-    assert 1 == 1
+def test_patch_advertisement_reward(client):
+    resp = client.patch("/advertisement/1", json={"reward": 1111})
+    print(resp)

@@ -4,6 +4,7 @@ from typing import List, Dict
 import requests
 
 import config
+from app.exceptions.exceptions import NotFoundAdCampaign
 from app.models.base_models.responses.advertisement import (
     GetAdvertisementsResponse,
     AdvertisementResponseModel,
@@ -35,8 +36,10 @@ class AdvertisementService:
     def __init__(self):
         self.advertisement_repo = AdvertisementRepo()
 
-    async def get_advertisement(self, user_id: int, country: str, gender: str, session):
-        advertisements = await self.advertisement_repo.get_advertisement(
+    async def get_advertisements(
+        self, user_id: int, country: str, gender: str, session
+    ):
+        advertisements = await self.advertisement_repo.get_advertisements(
             user_id=user_id, country=country, gender=gender, session=session
         )
         if not advertisements:
@@ -73,3 +76,15 @@ class AdvertisementService:
             for ad in chosen_ads
         ]
         return result
+
+    async def patch_advertisement_reward(
+        self, ad_campaign_id: int, reward: int, session
+    ):
+        if rv := await self.advertisement_repo.get_advertisement(
+            ad_campaign_id=ad_campaign_id, session=session
+        ):
+            await self.advertisement_repo.patch_advertisement_reward(
+                ad_campaign_id=ad_campaign_id, reward=reward, session=session
+            )
+        else:
+            raise NotFoundAdCampaign
