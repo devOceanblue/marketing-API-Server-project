@@ -1,11 +1,14 @@
 from functools import wraps
 
+from fastapi.logger import logger
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
 import config
 
-engine = create_engine(f"mysql+pymysql://{config.user}:{config.password}@{config.host}/{config.db}?charset=utf8mb4")
+engine = create_engine(
+    f"mysql+pymysql://{config.user}:{config.password}@{config.host}/{config.db}?charset=utf8mb4"
+)
 
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
@@ -27,6 +30,9 @@ def get_session(
                     func(*args, **kwargs)
                 except Exception as e:
                     session.rollback()
+                    logger.exception("session error is raised")
                     raise e
+
         return inner
+
     return wrap
