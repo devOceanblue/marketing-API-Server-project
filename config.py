@@ -7,3 +7,5 @@ user = os.getenv("DB_USER")
 password = os.getenv("DB_PASSWORD")
 
 log_level = os.getenv("LOG_LEVEL")
+
+ctr_prediction_server = os.getenv("CTR_PREDICTION_SERVER")

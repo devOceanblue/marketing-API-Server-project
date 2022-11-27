@@ -8,6 +8,7 @@ fastapi = "*"
 uvicorn = "*"
 SQLAlchemy = '*'
 PyMySQL ="*"
+requests = "*"
 
 [dev-packages]
 fastapi = "*"

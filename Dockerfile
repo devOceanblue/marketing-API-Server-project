@@ -18,6 +18,8 @@ ENV DB_PASSWORD zxcsfqersdr123@~!
 
 ENV LOG_LEVEL DEBUG
 
+ENV CTR_PREDICTION_SERVER https://predict-ctr-pmj4td4sjq-du.a.run.app/
+
 
 EXPOSE 8082
 
