@@ -11,6 +11,7 @@ RUN pip install --no-cache-dir --upgrade -r /app/requirements.txt
 COPY . /app
 
 ENV DB_HOST localhost
+ENV DB_PORT 3306
 ENV DB_NAME buzzvil
 ENV DB_USER test_user
 ENV DB_PASSWORD zxcsfqersdr123@~!

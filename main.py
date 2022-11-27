@@ -34,10 +34,5 @@ async def on_start_up():
 
 
 @app.get("/")
-async def root():
+async def index():
     return {"message": "Hello World"}
-
-
-@app.get("/hello/{name}")
-async def say_hello(name: str):
-    return {"message": f"Hello {name}"}

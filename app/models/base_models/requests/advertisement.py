@@ -1,7 +1,7 @@
 from pydantic import BaseModel
 
 
-class GetAdvertisementRequest(BaseModel):
+class GetAdvertisementsRequest(BaseModel):
     user_id: int
     gender: str
     country: str

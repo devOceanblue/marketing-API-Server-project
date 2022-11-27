@@ -1,14 +1,21 @@
 from functools import wraps
 
-from fastapi.logger import logger
 from sqlalchemy import create_engine
+from sqlalchemy.engine import URL
 from sqlalchemy.orm import sessionmaker, scoped_session
 
 import config
 
-engine = create_engine(
-    f"mysql+pymysql://{config.user}:{config.password}@{config.host}/{config.db}?charset=utf8mb4"
+connect_url = URL.create(
+    "mysql+pymysql",
+    username=config.user,
+    password=config.password,
+    host=config.host,
+    port=config.port,
+    database=config.db,
 )
+
+engine = create_engine(connect_url)
 
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 Session = scoped_session(SessionLocal)
