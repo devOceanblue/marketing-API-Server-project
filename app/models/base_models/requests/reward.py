@@ -2,7 +2,7 @@ from pydantic import BaseModel
 
 
 class EarnRewardRequest(BaseModel):
-    reward: int
+    ad_campaign_id: int
 
 
 class UserRewardRequest(BaseModel):

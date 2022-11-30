@@ -1,12 +1,12 @@
-from app.exceptions.exceptions import NotFoundError, NotEnoughBalanceError
+from app.exceptions.exceptions import NotFoundError, AlreadyRewardedError
 from app.models.base_models.responses.reward import (
     WeeklyRewardResponse,
     GetWeeklyRewardsResponse,
     GetBalanceOfRewardResponse,
 )
-from app.repositories.advertisement_repository import AdvertisementRepo
 from app.repositories.reward_repository import RewardRepo
-from fastapi.logger import logger
+
+from app.services.advertisement_service import AdvertisementService
 
 
 class RewardService:
@@ -37,8 +37,19 @@ class RewardService:
             user_id=user_id, reward=reward, session=session
         )
 
-    async def earn_reward(self, user_id: int, reward: int, session):
-        rv = await self.reward_repo.earn_reward(
-            user_id=user_id, reward=reward, session=session
+    async def earn_reward(self, user_id: int, ad_campaign_id: int, session):
+        reward = await self.get_reward(ad_campaign_id=ad_campaign_id, user_id=user_id)
+        if reward:
+            raise AlreadyRewardedError
+
+        advertisement_service = AdvertisementService()
+        ad = advertisement_service.get_advertisement(
+            ad_campaign_id=ad_campaign_id, session=session
         )
-        return
+
+        await self.reward_repo.earn_reward(
+            user_id=user_id,
+            ad_campaign_id=ad_campaign_id,
+            credit=ad.credit,
+            session=session,
+        )

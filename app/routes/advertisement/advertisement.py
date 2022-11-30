@@ -8,7 +8,7 @@ from app.models.base_models.requests.advertisement import (
 )
 from app.models.base_models.responses.advertisement import GetAdvertisementsResponse
 from app.services.advertisement_service import AdvertisementService
-from db_setup import get_session, engine
+from db_setup import get_session
 
 advertisement_router = APIRouter(prefix="/advertisement")
 

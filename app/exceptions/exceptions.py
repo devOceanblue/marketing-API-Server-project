@@ -14,3 +14,7 @@ class NotFoundError(CustomHTTPException):
 
 class NotEnoughBalanceError(CustomHTTPException):
     status_code = 400
+
+
+class AlreadyRewardedError(CustomHTTPException):
+    status_code = 400

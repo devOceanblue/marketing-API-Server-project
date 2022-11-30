@@ -2,15 +2,15 @@ import random
 from random import random
 from typing import List, Dict
 
-import requests
 import numpy as np
+import requests
 
 import config
 from app.exceptions.exceptions import NotFoundError
 from app.models.base_models.responses.advertisement import (
-    GetAdvertisementsResponse,
     AdvertisementResponseModel,
 )
+from app.models.orm_models.advertisement import Advertisement
 from app.repositories.advertisement_repository import AdvertisementRepo
 from app.repositories.user_repository import UserRepository
 
@@ -53,6 +53,9 @@ def _choose_advertisement(ads: List[Dict], type: int) -> List[Dict]:
 class AdvertisementService:
     def __init__(self):
         self.advertisement_repo = AdvertisementRepo()
+
+    async def get_advertisement(self, ad_campaign_id: int, session):
+        return session.get(Advertisement, ad_campaign_id)
 
     async def get_advertisements(
         self, user_id: int, country: str, gender: str, session

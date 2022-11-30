@@ -1,5 +1,7 @@
 from datetime import datetime, timedelta
 
+from sqlalchemy import select, and_
+
 from app.exceptions.exceptions import NotEnoughBalanceError
 from app.models.orm_models.reward import Reward
 from app.models.orm_models.user import User
@@ -24,7 +26,17 @@ class RewardRepo:
         else:
             raise NotEnoughBalanceError
 
-    async def earn_reward(self, user_id, reward: int, session):
+    async def earn_reward(self, user_id, ad_campaign_id: int, credit: int, session):
         u = session.get(User, user_id)
-        u.balance += reward
+        u.balance += credit
+
+        reward = Reward(user_id=user_id, ad_campaign_id=ad_campaign_id, credit=credit)
+        session.add(reward)
         session.commit()
+
+    async def get_reward(self, ad_campaign_id: int, user_id: int, session):
+        stmt = select(Reward).where(
+            and_(Reward.ad_campaign_id == ad_campaign_id, Reward.user_id == user_id)
+        )
+        rv = session.execute(stmt).all()
+        return rv
