@@ -22,4 +22,3 @@ class Advertisement(Base):
         server_default=FetchedValue(),
         server_onupdate=FetchedValue(),
     )
-    is_rewarded = Column(Boolean)

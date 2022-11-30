@@ -62,7 +62,7 @@ async def earn_reward(user_id: int, request: EarnRewardRequest, session=None):
     reward_service = RewardService()
     try:
         result = await reward_service.earn_reward(
-            user_id=user_id, reward=request.ad_campaign_id, session=session
+            user_id=user_id, ad_campaign_id=request.ad_campaign_id, session=session
         )
         return result
     except AlreadyRewardedError as e:

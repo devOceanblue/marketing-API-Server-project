@@ -22,4 +22,4 @@ class User(Base):
         self.user_id = user_id
         self.country = country
         self.gender = gender
-        balance = balance
+        self.balance = balance

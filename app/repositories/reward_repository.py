@@ -20,11 +20,8 @@ class RewardRepo:
 
     async def use_reward(self, user_id, reward: int, session):
         u = session.get(User, user_id)
-        if u.balance - reward >= 0:
-            u.balance -= reward
-            session.commit()
-        else:
-            raise NotEnoughBalanceError
+        u.balance -= reward
+        session.commit()
 
     async def earn_reward(self, user_id, ad_campaign_id: int, credit: int, session):
         u = session.get(User, user_id)

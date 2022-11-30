@@ -1,9 +1,14 @@
-from app.exceptions.exceptions import NotFoundError, AlreadyRewardedError
+from app.exceptions.exceptions import (
+    NotFoundError,
+    AlreadyRewardedError,
+    NotEnoughBalanceError,
+)
 from app.models.base_models.responses.reward import (
     WeeklyRewardResponse,
     GetWeeklyRewardsResponse,
     GetBalanceOfRewardResponse,
 )
+from app.models.orm_models.user import User
 from app.repositories.reward_repository import RewardRepo
 
 from app.services.advertisement_service import AdvertisementService
@@ -33,17 +38,23 @@ class RewardService:
         return GetBalanceOfRewardResponse(user_id=rv.user_id, balance=rv.balance)
 
     async def use_reward(self, user_id: int, reward: int, session):
-        rv = await self.reward_repo.use_reward(
-            user_id=user_id, reward=reward, session=session
-        )
+        u = session.get(User, user_id)
+        if u.balance - reward >= 0:
+            await self.reward_repo.use_reward(
+                user_id=user_id, reward=reward, session=session
+            )
+        else:
+            raise NotEnoughBalanceError
 
     async def earn_reward(self, user_id: int, ad_campaign_id: int, session):
-        reward = await self.get_reward(ad_campaign_id=ad_campaign_id, user_id=user_id)
+        reward = await self.reward_repo.get_reward(
+            ad_campaign_id=ad_campaign_id, user_id=user_id, session=session
+        )
         if reward:
             raise AlreadyRewardedError
 
         advertisement_service = AdvertisementService()
-        ad = advertisement_service.get_advertisement(
+        ad = await advertisement_service.get_advertisement(
             ad_campaign_id=ad_campaign_id, session=session
         )
 

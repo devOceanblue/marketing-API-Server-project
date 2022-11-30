@@ -13,7 +13,7 @@ class AdvertisementRepo:
                 Advertisement.target_gender == gender,
             )
         )
-        rv = session.execute(qry).scalars().fetchall()
+        rv = session.execute(qry).fetchall()
         return rv
 
     async def get_advertisement(self, ad_campaign_id: int, session):
