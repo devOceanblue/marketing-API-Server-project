@@ -3,9 +3,10 @@ USE `buzzvil`;
 DROP TABLE IF EXISTS `user`;
 create table user
 (
-    user_id    int auto_increment,
+    user_id    int,
     country    VARCHAR(254) not null,
     gender     VARCHAR(50) not null,
+    balance    int default 0 not null,
     created_at TIMESTAMP default CURRENT_TIMESTAMP,
     updated_at TIMESTAMP default CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     constraint user_pk

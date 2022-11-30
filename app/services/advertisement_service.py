@@ -1,7 +1,9 @@
+import random
 from random import random
 from typing import List, Dict
 
 import requests
+import numpy as np
 
 import config
 from app.exceptions.exceptions import NotFoundError
@@ -10,6 +12,7 @@ from app.models.base_models.responses.advertisement import (
     AdvertisementResponseModel,
 )
 from app.repositories.advertisement_repository import AdvertisementRepo
+from app.repositories.user_repository import UserRepository
 
 
 def _choose_advertisement(ads: List[Dict], type: int) -> List[Dict]:
@@ -20,16 +23,31 @@ def _choose_advertisement(ads: List[Dict], type: int) -> List[Dict]:
         return random.shuffle(ads)[:size]
     elif type == 1:
         # weight, weight 기반의 정책에 대해 github에 제대로 적혀있지 않다. 관리자에게 한번더 물어보자.
-        return sorted(ads, key=lambda x: x["weight"], reverse=True)[:size]
+        np.random.seed(np.random.randint(0, 100))
+        weights = np.array([x["weight"] for x in ads])
+        probability = weights / np.sum(weights)
+        result = np.random.choice(ads, size=size, replace=False, p=probability)
+        return result[:size]
     elif type == 2:
         # pctr
         return sorted(ads, key=lambda x: x["pctr"], reverse=True)[:size]
     else:
         # weight_pctr_mixed
-        return [
-            sorted(ads, lambda x: x["pctr"], reverse=True)[0],
-            sorted(ads, key=lambda x: x["weight"], reverse=True)[: size - 1],
-        ]
+
+        result = []
+        pctr_sorted_ads = sorted(ads, key=lambda x: x["pctr"], reverse=True)
+        result.append(pctr_sorted_ads[0])
+        pctr_sorted_ads = pctr_sorted_ads[1:]
+        if size > 1:
+            np.random.seed(np.random.randint(0, 100))
+            weights = np.array([x["weight"] for x in pctr_sorted_ads])
+            probability = weights / np.sum(weights)
+            result.extend(
+                np.random.choice(
+                    pctr_sorted_ads, size=size - 1, replace=False, p=probability
+                )
+            )
+        return result
 
 
 class AdvertisementService:
@@ -39,6 +57,13 @@ class AdvertisementService:
     async def get_advertisements(
         self, user_id: int, country: str, gender: str, session
     ):
+        user_repo = UserRepository()
+        user = await user_repo.get_user(user_id=user_id, session=session)
+        if not user:
+            await user_repo.register_user(
+                user_id=user_id, country=country, gender=gender, session=session
+            )
+
         advertisements = await self.advertisement_repo.get_advertisements(
             user_id=user_id, country=country, gender=gender, session=session
         )

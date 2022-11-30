@@ -3,7 +3,7 @@ import pytest
 
 @pytest.mark.asyncio
 async def test_get_advertisement(client):
-    resp = client.get("/advertisement?user_id=1&gender=M&country=KR")
+    resp = client.get("/advertisement?user_id=3&gender=M&country=KR")
     print(resp.json())
 
 

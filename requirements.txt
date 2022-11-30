@@ -3,3 +3,4 @@ uvicorn==0.20.0
 SQLAlchemy==1.4.44
 PyMySQL==1.0.2
 requests==2.28.1
+numpy==1.23.5

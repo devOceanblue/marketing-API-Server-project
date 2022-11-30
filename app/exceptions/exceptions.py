@@ -10,3 +10,7 @@ class CustomHTTPException(HTTPException):
 
 class NotFoundError(CustomHTTPException):
     status_code = 404
+
+
+class NotEnoughBalanceError(CustomHTTPException):
+    status_code = 400

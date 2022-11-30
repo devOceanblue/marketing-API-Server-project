@@ -14,7 +14,7 @@ advertisement_router = APIRouter(prefix="/advertisement")
 
 
 @advertisement_router.get(
-    "", description="광고 리스트 불러오기", response_model=GetAdvertisementsResponse
+    "", description="광고 송출 요청", response_model=GetAdvertisementsResponse
 )
 @get_session(name="session")
 async def get_advertisements(

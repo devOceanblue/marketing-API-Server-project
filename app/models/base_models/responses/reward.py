@@ -11,3 +11,8 @@ class WeeklyRewardResponse(BaseModel):
 
 class GetWeeklyRewardsResponse(BaseModel):
     result: List[WeeklyRewardResponse]
+
+
+class GetBalanceOfRewardResponse(BaseModel):
+    user_id: int
+    balance: int
