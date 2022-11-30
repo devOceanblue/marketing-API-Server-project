@@ -24,6 +24,6 @@ async def test_use_reward(client):
 
 @pytest.mark.asyncio
 async def test_earn_reward(client):
-    data = {"reward": 1}
+    data = {"ad_campaign_id": 1}
     resp = client.patch("/reward/earn/1", json=data)
     pprint(resp.json())
