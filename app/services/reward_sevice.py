@@ -61,6 +61,6 @@ class RewardService:
         await self.reward_repo.earn_reward(
             user_id=user_id,
             ad_campaign_id=ad_campaign_id,
-            credit=ad.credit,
+            credit=ad.reward,
             session=session,
         )

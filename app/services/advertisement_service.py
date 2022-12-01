@@ -1,5 +1,4 @@
 import random
-from random import random
 from typing import List, Dict
 
 import numpy as np
@@ -20,20 +19,20 @@ def _choose_advertisement(ads: List[Dict], type: int) -> List[Dict]:
 
     if type == 0:
         # random
-        return random.shuffle(ads)[:size]
+        random.shuffle(ads)
+        return ads[:size]
     elif type == 1:
         # weight, weight 기반의 정책에 대해 github에 제대로 적혀있지 않다. 관리자에게 한번더 물어보자.
         np.random.seed(np.random.randint(0, 100))
         weights = np.array([x["weight"] for x in ads])
         probability = weights / np.sum(weights)
         result = np.random.choice(ads, size=size, replace=False, p=probability)
-        return result[:size]
+        return result
     elif type == 2:
         # pctr
         return sorted(ads, key=lambda x: x["pctr"], reverse=True)[:size]
     else:
         # weight_pctr_mixed
-
         result = []
         pctr_sorted_ads = sorted(ads, key=lambda x: x["pctr"], reverse=True)
         result.append(pctr_sorted_ads[0])

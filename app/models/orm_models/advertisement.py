@@ -22,3 +22,21 @@ class Advertisement(Base):
         server_default=FetchedValue(),
         server_onupdate=FetchedValue(),
     )
+
+    def __init__(
+        self,
+        name,
+        image_url,
+        landing_url,
+        weight,
+        target_country,
+        target_gender,
+        reward,
+    ):
+        self.name = name
+        self.image_url = image_url
+        self.landing_url = landing_url
+        self.weight = weight
+        self.target_country = target_country
+        self.target_gender = target_gender
+        self.reward = reward

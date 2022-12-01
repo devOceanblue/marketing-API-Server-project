@@ -2,7 +2,6 @@ from datetime import datetime, timedelta
 
 from sqlalchemy import select, and_
 
-from app.exceptions.exceptions import NotEnoughBalanceError
 from app.models.orm_models.reward import Reward
 from app.models.orm_models.user import User
 
@@ -35,5 +34,5 @@ class RewardRepo:
         stmt = select(Reward).where(
             and_(Reward.ad_campaign_id == ad_campaign_id, Reward.user_id == user_id)
         )
-        rv = session.execute(stmt).all()
+        rv = session.execute(stmt).scalars().fetchall()
         return rv

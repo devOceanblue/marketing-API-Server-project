@@ -7,8 +7,8 @@ Base = declarative_base()
 class Reward(Base):
     __tablename__ = "reward"
     id = Column(Integer, primary_key=True, autoincrement=True)
-    user_id = Column(Integer, ForeignKey("user.user_id"), nullable=False)
-    ad_campaign_id = Column(Integer, ForeignKey("ad_campaigns.id"), nullable=False)
+    user_id = Column(Integer, nullable=False)
+    ad_campaign_id = Column(Integer, nullable=False)
     credit = Column(Integer)
     created_at = Column(TIMESTAMP, server_default=func.now())
     updated_at = Column(

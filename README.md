@@ -1,19 +1,19 @@
 # Buzvil 광고서버
 
-### Run
+## Run
 docker-compose up -d
 
-### API 문서
+## API 문서
 http://localhost:8082/docs#
 
 
-### pre-commit
+## pre-commit
 pre-commit을 통해 PEP8 형식에 맞게 자동화
 1. pip install pre-commit
 2. pre-commit install
 
 
-### Database
+## Database
 1. create_db.sql
 2. create_tables.sql
 3. insert_ad_campaigns.sql
