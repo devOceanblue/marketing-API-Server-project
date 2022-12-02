@@ -6,7 +6,7 @@ import pytest
 class TestEarnReward:
     @pytest.mark.asyncio
     async def test_earn_reward(self, client):
-        data = {"ad_campaign_id": 1}
+        data = {"ad_campaign_id": 2}
         resp = client.patch(f"/reward/earn/1", json=data)
         assert resp.status_code == 200
 

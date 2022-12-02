@@ -95,10 +95,10 @@ class AdvertisementService:
 
         result = [
             AdvertisementResponseModel(
-                ad_campaign_id=ad["ad_campaign_id"],
-                image_url=ad["image_url"],
-                landing_url=ad["landing_url"],
-                reward=ad["reward"],
+                ad_campaign_id=ad.get("ad_campaign_id"),
+                image_url=ad.get("image_url"),
+                landing_url=ad.get("landing_url"),
+                reward=ad.get("reward"),
             )
             for ad in chosen_ads
         ]
