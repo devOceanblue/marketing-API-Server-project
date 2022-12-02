@@ -1,0 +1,26 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+fastapi = "*"
+uvicorn = "*"
+SQLAlchemy = '*'
+PyMySQL ="*"
+requests = "*"
+numpy = "*"
+
+[dev-packages]
+fastapi = "*"
+uvicorn = "*"
+SQLAlchemy = '*'
+PyMySQL ="*"
+pytest = "*"
+pytest-env = "*"
+pytest-asyncio = "*"
+pytest-xdist = "*"
+httpx = "*"
+
+[requires]
+python_version = "3.10"
