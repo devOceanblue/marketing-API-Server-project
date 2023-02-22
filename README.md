@@ -1,4 +1,4 @@
-# Buzvil 광고서버
+# 광고서버
 
 ## Run
 docker-compose up -d
